@@ -1,0 +1,17 @@
+{
+    "System": {
+        "User": {
+            "Name": "Hệ thống (tự động)",
+            "Thumbnail": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+        },
+        "MasterStatus": {
+            "None": "Không xác định",
+            "Active": "Đang hoạt động",
+            "Inactive": "Ngừng hoạt động"
+        },
+        "LocalizationTest": {
+            "Title": "Bản địa hóa Shared",
+            "Greeting": "Xin chào, {0}!"
+        }
+    }
+}

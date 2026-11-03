@@ -1,0 +1,7 @@
+{
+  "Test": {
+    "Title": "Bản địa hóa Gateway",
+    "Greeting": "Xin chào, {0}!",
+    "Welcome": "Chào mừng {0} đến với gateway."
+  }
+}

@@ -1,0 +1,15 @@
+@GatewayApi = http://localhost:5037
+@Name = Lan
+
+### Test shared and gateway localization in Vietnamese, including formatted values
+GET {{GatewayApi}}/api/test/localization?culture=vi&ui-culture=vi&name={{Name}}
+Accept: application/json
+
+### Test shared and gateway localization in English, including formatted values
+GET {{GatewayApi}}/api/test/localization?culture=en&ui-culture=en&name={{Name}}
+Accept: application/json
+
+### Test request culture selection with the Accept-Language header
+GET {{GatewayApi}}/api/test/localization?name={{Name}}
+Accept: application/json
+Accept-Language: vi

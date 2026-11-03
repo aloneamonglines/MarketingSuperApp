@@ -1,0 +1,17 @@
+{
+    "System": {
+        "User": {
+            "Name": "System (Automatic)",
+            "Thumbnail": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+        },
+        "MasterStatus": {
+            "None": "None",
+            "Active": "Active",
+            "Inactive": "Inactive"
+        },
+        "LocalizationTest": {
+            "Title": "Shared localization",
+            "Greeting": "Hello, {0}!"
+        }
+    }
+}

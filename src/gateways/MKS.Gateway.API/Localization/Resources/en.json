@@ -1,0 +1,7 @@
+{
+  "Test": {
+    "Title": "Gateway localization",
+    "Greeting": "Hello, {0}!",
+    "Welcome": "Welcome to the gateway, {0}."
+  }
+}
