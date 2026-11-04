@@ -1,4 +1,6 @@
 using System.Text.RegularExpressions;
+using MKS.Shared.Domain.Shared.Common;
+using MKS.Shared.Domain.Shared.Constants;
 
 namespace MKS.Shared.Domain.Shared.Common.ValueObjects
 {
@@ -169,7 +171,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// Mã bưu chính, nếu có.
         /// </param>
         /// <returns>Một Address Value Object hợp lệ.</returns>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi một trong các thành phần địa chỉ không hợp lệ.
         /// </exception>
         public static Address Create(
@@ -183,34 +185,28 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         {
             ValidateRequiredField(
                 addressLine1,
-                nameof(addressLine1),
                 MaxAddressLineLength);
 
             ValidateRequiredField(
                 locality,
-                nameof(locality),
                 MaxLocalityLength);
 
             ValidateCountryCode(countryCode);
 
             ValidateOptionalField(
                 addressLine2,
-                nameof(addressLine2),
                 MaxAddressLineLength);
 
             ValidateOptionalField(
                 dependentLocality,
-                nameof(dependentLocality),
                 MaxDependentLocalityLength);
 
             ValidateOptionalField(
                 administrativeArea,
-                nameof(administrativeArea),
                 MaxAdministrativeAreaLength);
 
             ValidateOptionalField(
                 postalCode,
-                nameof(postalCode),
                 MaxPostalCodeLength);
 
             return new Address(
@@ -338,26 +334,24 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// <param name="value">Giá trị cần kiểm tra.</param>
         /// <param name="parameterName">Tên tham số.</param>
         /// <param name="maxLength">Độ dài tối đa cho phép.</param>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi giá trị để trống hoặc vượt quá độ dài cho phép.
         /// </exception>
         private static void ValidateRequiredField(
             string value,
-            string parameterName,
             int maxLength)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new ArgumentException(
-                    "Thành phần địa chỉ bắt buộc không được để trống.",
-                    parameterName);
+                throw new DomainException(SharedDomainErrorCodes.Address.RequiredComponent);
             }
 
             if (value.Trim().Length > maxLength)
             {
-                throw new ArgumentException(
-                    $"Thành phần địa chỉ không được vượt quá {maxLength} ký tự.",
-                    parameterName);
+                throw new DomainException(
+                    SharedDomainErrorCodes.Address.ComponentTooLong,
+                    null,
+                    maxLength);
             }
         }
 
@@ -367,12 +361,11 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// <param name="value">Giá trị cần kiểm tra.</param>
         /// <param name="parameterName">Tên tham số.</param>
         /// <param name="maxLength">Độ dài tối đa cho phép.</param>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi giá trị vượt quá độ dài cho phép.
         /// </exception>
         private static void ValidateOptionalField(
             string? value,
-            string parameterName,
             int maxLength)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -382,9 +375,10 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
 
             if (value.Trim().Length > maxLength)
             {
-                throw new ArgumentException(
-                    $"Thành phần địa chỉ không được vượt quá {maxLength} ký tự.",
-                    parameterName);
+                throw new DomainException(
+                    SharedDomainErrorCodes.Address.ComponentTooLong,
+                    null,
+                    maxLength);
             }
         }
 
@@ -397,16 +391,14 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// chính thức hay không.
         /// </summary>
         /// <param name="countryCode">Mã quốc gia cần kiểm tra.</param>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi mã quốc gia không đúng định dạng.
         /// </exception>
         private static void ValidateCountryCode(string countryCode)
         {
             if (string.IsNullOrWhiteSpace(countryCode))
             {
-                throw new ArgumentException(
-                    "Mã quốc gia không được để trống.",
-                    nameof(countryCode));
+                throw new DomainException(SharedDomainErrorCodes.Address.CountryCodeRequired);
             }
 
             countryCode = countryCode.Trim().ToUpperInvariant();
@@ -414,9 +406,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
             if (countryCode.Length != MaxCountryCodeLength ||
                 !CountryCodeRegex.IsMatch(countryCode))
             {
-                throw new ArgumentException(
-                    "Mã quốc gia phải có đúng 2 chữ cái theo ISO 3166-1 alpha-2.",
-                    nameof(countryCode));
+                throw new DomainException(SharedDomainErrorCodes.Address.CountryCodeInvalid);
             }
         }
 

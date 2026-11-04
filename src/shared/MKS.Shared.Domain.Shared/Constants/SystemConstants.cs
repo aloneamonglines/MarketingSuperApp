@@ -15,5 +15,11 @@ namespace MKS.Shared.Domain.Shared.Constants
             public const string Active = "System.MasterStatus.Active";
             public const string Inactive = "System.MasterStatus.Inactive";
         }
+
+        public static class LocalizationTest
+        {
+            public const string Title = "System.LocalizationTest.Title";
+            public const string Greeting = "System.LocalizationTest.Greeting";
+        }
     }
 }

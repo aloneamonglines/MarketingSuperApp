@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using MKS.Shared.Domain.Shared.Common.Events;
+
 namespace MKS.Shared.Domain.Common
 {
     /// <summary>
@@ -8,8 +11,11 @@ namespace MKS.Shared.Domain.Common
         IHasCreatorEntity,
         IHasModifierEntity,
         IHasDeleterEntity,
-        IHasRestorerEntity
+        IHasRestorerEntity,
+        IHasLocalEvent
     {
+        private readonly List<object> _localEvents = [];
+
         /// <summary>
         /// The unique identifier of the user who created the entity.
         /// </summary>
@@ -46,5 +52,19 @@ namespace MKS.Shared.Domain.Common
         /// The date and time when the entity was restored, if applicable.
         /// </summary>
         public virtual DateTimeOffset? RestoredAt { get; set; }
+
+        /// <inheritdoc />
+        [NotMapped]
+        public IReadOnlyCollection<object> LocalEvents => _localEvents;
+
+        /// <inheritdoc />
+        public void ClearLocalEvents() => _localEvents.Clear();
+
+        /// <summary>Adds a domain event to be dispatched after the entity is persisted.</summary>
+        protected void RaiseLocalEvent(object localEvent)
+        {
+            ArgumentNullException.ThrowIfNull(localEvent);
+            _localEvents.Add(localEvent);
+        }
     }
 }

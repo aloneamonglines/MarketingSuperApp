@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\MKS.Identity.Domain.Shared\MKS.Identity.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\shared\MKS.Shared.Domain\MKS.Shared.Domain.csproj" />
+  </ItemGroup>
+</Project>

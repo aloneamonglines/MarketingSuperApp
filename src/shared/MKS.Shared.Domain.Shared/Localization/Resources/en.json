@@ -13,5 +13,49 @@
             "Title": "Shared localization",
             "Greeting": "Hello, {0}!"
         }
+    },
+    "Shared": {
+        "Errors": {
+            "LocalizationKeyRequired": "A localization key is required.",
+            "ValidationFailed": "The request contains invalid values.",
+            "NotFound": "The requested resource was not found.",
+            "Forbidden": "You are not allowed to perform this operation.",
+            "Internal": "An unexpected error occurred.",
+            "Address": {
+                "RequiredComponent": "A required address component cannot be empty.",
+                "ComponentTooLong": "An address component cannot exceed {0} characters.",
+                "CountryCodeRequired": "A country code is required.",
+                "CountryCodeInvalid": "The country code must contain exactly two letters in ISO 3166-1 alpha-2 format."
+            },
+            "Image": {
+                "UrlRequired": "An image URL is required.",
+                "UrlTooLong": "An image URL cannot exceed {0} characters.",
+                "UrlSchemeInvalid": "Image URLs must use HTTP or HTTPS.",
+                "UrlHostInvalid": "The image URL must contain a valid hostname.",
+                "UrlNetworkPathNotAllowed": "Image URLs cannot use a network-path reference.",
+                "UrlBackslashNotAllowed": "Image paths cannot contain a backslash.",
+                "FileNameTooLong": "The file name cannot exceed {0} characters.",
+                "FileNameInvalid": "The file name contains invalid characters.",
+                "AltTooLong": "Image alt text cannot exceed {0} characters.",
+                "ContentTypeTooLong": "The MIME type cannot exceed {0} characters.",
+                "ContentTypeInvalid": "ContentType must be an image MIME type.",
+                "FileSizeInvalid": "The image file size must be greater than 0 bytes.",
+                "WidthInvalid": "The image width must be greater than 0 pixels.",
+                "HeightInvalid": "The image height must be greater than 0 pixels.",
+                "StorageKeyTooLong": "The storage key cannot exceed {0} characters.",
+                "StorageKeyAbsolute": "The storage key cannot be an absolute path.",
+                "StorageKeyBackslashNotAllowed": "The storage key cannot contain a backslash.",
+                "StorageKeyUrlNotAllowed": "The storage key must be a storage key, not a URL."
+            }
+        },
+        "Validation": {
+            "Required": "This field is required.",
+            "Invalid": "The value is invalid.",
+            "TooShort": "The value is shorter than allowed.",
+            "TooLong": "The value exceeds the maximum length.",
+            "OutOfRange": "The value is outside the allowed range.",
+            "CollectionEmpty": "At least one item is required.",
+            "CollectionTooLarge": "The number of items exceeds the allowed limit."
+        }
     }
 }

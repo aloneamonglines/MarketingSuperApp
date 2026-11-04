@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <ProjectReference Include="..\MKS.Identity.Domain.Shared\MKS.Identity.Domain.Shared.csproj" />
+    <ProjectReference Include="..\MKS.Identity.Domain\MKS.Identity.Domain.csproj" />
+    <ProjectReference Include="..\..\..\shared\MKS.Shared.Application.Contracts\MKS.Shared.Application.Contracts.csproj" />
+  </ItemGroup>
+</Project>

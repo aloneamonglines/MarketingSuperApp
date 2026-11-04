@@ -1,0 +1,25 @@
+@identityBaseUrl = http://localhost:5090
+@accessToken = replace-with-superadmin-access-token
+@tenantId = 00000000-0000-0000-0000-000000000001
+@grantId = 00000000-0000-0000-0000-000000000002
+
+### Create a read-only break-glass grant
+POST {{identityBaseUrl}}/api/identity/break-glass
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "tenantId": "{{tenantId}}",
+  "reason": "Investigate a production incident affecting customer access",
+  "durationMinutes": 30
+}
+
+### Exchange credentials and grant for a tenant-scoped break-glass token
+POST {{identityBaseUrl}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=urn%3Amks%3Abreak-glass&username=admin%40example.com&password=replace-me&tenant_id={{tenantId}}&grant_id={{grantId}}
+
+### Revoke the grant
+DELETE {{identityBaseUrl}}/api/identity/break-glass/{{grantId}}
+Authorization: Bearer {{accessToken}}

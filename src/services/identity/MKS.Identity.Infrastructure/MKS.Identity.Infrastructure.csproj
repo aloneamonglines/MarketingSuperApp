@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="EFCore.BulkExtensions.PostgreSql" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.14" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.14" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="7.8.0" />
+    <ProjectReference Include="..\MKS.Identity.Application.Contracts\MKS.Identity.Application.Contracts.csproj" />
+    <ProjectReference Include="..\MKS.Identity.Domain\MKS.Identity.Domain.csproj" />
+    <ProjectReference Include="..\..\..\shared\MKS.Shared.Infrastructure\MKS.Shared.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

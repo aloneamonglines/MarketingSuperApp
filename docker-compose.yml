@@ -1,0 +1,22 @@
+services:
+  identity-db:
+    image: postgres:16-alpine
+    container_name: marketing-superapp-identity-db
+    environment:
+      POSTGRES_DB: identity_db
+      POSTGRES_USER: identity_migrator
+      POSTGRES_PASSWORD: identity_migrator_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - identity_postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/identity-init.sql:/docker-entrypoint-initdb.d/identity-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U identity_migrator -d identity_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  identity_postgres_data:

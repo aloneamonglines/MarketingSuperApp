@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.14" />
     <ProjectReference Include="..\MKS.Shared.Application.Contracts\MKS.Shared.Application.Contracts.csproj" />
     <ProjectReference Include="..\MKS.Shared.Domain\MKS.Shared.Domain.csproj" />
   </ItemGroup>

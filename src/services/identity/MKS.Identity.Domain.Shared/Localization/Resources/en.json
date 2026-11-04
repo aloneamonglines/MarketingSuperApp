@@ -1,0 +1,33 @@
+{
+  "Identity": {
+    "Errors": {
+      "IdentifierRequired": "At least one email, phone number, or username is required.",
+      "InvalidIdentifier": "The supplied identifier is invalid.",
+      "IdentifierAlreadyExists": "The supplied identifier is unavailable.",
+      "LastAdministrator": "The last active administrator cannot be removed.",
+      "InvalidScope": "The requested resource is outside the authorized scope.",
+      "InvalidInput": "One or more supplied values are invalid.",
+      "InvalidCredentials": "The supplied credentials are invalid.",
+      "AccountLocked": "The account is temporarily locked.",
+      "PasswordPolicy": "The new password does not meet the password policy.",
+      "MustChangePassword": "Change the temporary password before continuing.",
+      "BreakGlassReason": "A break-glass reason of at least 20 characters is required.",
+      "BreakGlassDuration": "The requested break-glass duration is outside the allowed limit.",
+      "BreakGlassExpired": "The break-glass grant is no longer active."
+    },
+    "ProtocolErrors": {
+      "AppScopeNotAllowedForBreakGlass": "An application context cannot be specified for a break-glass grant.",
+      "InvalidAppContext": "The application context is invalid.",
+      "IncompleteSignInRequest": "The sign-in request is incomplete.",
+      "InvalidTenantContext": "The tenant context is invalid.",
+      "TenantRequiredForBreakGlass": "A tenant context is required for a break-glass grant.",
+      "InvalidBreakGlassGrant": "The break-glass grant is invalid.",
+      "BreakGlassGrantOnlyForCustomGrant": "A break-glass grant identifier is only valid for a break-glass grant.",
+      "InvalidCredentialsOrAccessContext": "The supplied credentials or requested access context are invalid.",
+      "InactiveSignInSession": "The sign-in session is no longer active.",
+      "RefreshTokenScopeMismatch": "The refresh token scope no longer matches its sign-in session.",
+      "RefreshTokenAlreadyUsed": "The refresh token has already been used.",
+      "InactiveBreakGlassGrant": "The break-glass grant is no longer active."
+    }
+  }
+}

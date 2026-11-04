@@ -1,0 +1,121 @@
+@identityBaseUrl = http://localhost:5090
+@superAdminEmail = replace-with-configured-superadmin-email
+@superAdminPassword = replace-with-configured-superadmin-password
+@superAdminToken = replace-with-superadmin-token
+@appAdminToken = replace-with-appadmin-token
+@tenantAccessToken = replace-with-tenant-scoped-token
+@temporaryPasswordToken = replace-with-temporary-password-token
+@appId = replace-with-created-app-id
+@tenantId = replace-with-created-tenant-id
+@userId = replace-with-created-user-id
+@roleId = replace-with-created-role-id
+
+### Sign in with offline access to receive a refresh token
+# @name signInForRefresh
+POST {{identityBaseUrl}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username={{superAdminEmail}}&password={{superAdminPassword}}&scope=offline_access
+
+### Rotate the refresh token
+# @name rotateRefreshToken
+POST {{identityBaseUrl}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&refresh_token={{signInForRefresh.response.body.refresh_token}}
+
+### Replaying the previous refresh token must return invalid_grant
+POST {{identityBaseUrl}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&refresh_token={{signInForRefresh.response.body.refresh_token}}
+
+### The newly rotated refresh token remains usable
+POST {{identityBaseUrl}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&refresh_token={{rotateRefreshToken.response.body.refresh_token}}
+
+### Sign in without an application context as the platform SuperAdmin
+POST {{identityBaseUrl}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username={{superAdminEmail}}&password={{superAdminPassword}}&scope=openid%20offline_access
+
+### Create an application (requires a non-temporary SuperAdmin access token)
+POST {{identityBaseUrl}}/api/identity/apps
+Authorization: Bearer {{superAdminToken}}
+Content-Type: application/json
+
+{
+  "name": "Marketing",
+  "code": "marketing",
+  "description": "Marketing application"
+}
+
+### Sign in as an AppAdmin in application scope
+POST {{identityBaseUrl}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username={{superAdminEmail}}&password={{superAdminPassword}}&app_id={{appId}}&scope=openid%20offline_access
+
+### Create a tenant with its first TenantAdmin
+POST {{identityBaseUrl}}/api/identity/tenants
+Authorization: Bearer {{appAdminToken}}
+Content-Type: application/json
+
+{
+  "name": "North America",
+  "code": "north-america",
+  "adminEmail": "tenant.admin@example.com",
+  "adminPhoneNumber": null,
+  "adminUsername": null
+}
+
+### Sign in in tenant scope
+POST {{identityBaseUrl}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username=tenant.admin%40example.com&password=123456&app_id={{appId}}&tenant_id={{tenantId}}
+
+### Create a tenant member (existing global users are added without resetting credentials)
+POST {{identityBaseUrl}}/api/identity/users
+Authorization: Bearer {{tenantAccessToken}}
+Content-Type: application/json
+
+{
+  "tenantId": "{{tenantId}}",
+  "email": "member@example.com",
+  "phoneNumber": null,
+  "username": null,
+  "firstName": "Marketing",
+  "lastName": "Member"
+}
+
+### Change the temporary password after sign-in
+POST {{identityBaseUrl}}/api/identity/users/change-password
+Authorization: Bearer {{temporaryPasswordToken}}
+Content-Type: application/json
+
+{
+  "currentPassword": "123456",
+  "newPassword": "replace-with-a-strong-password"
+}
+
+### Create a tenant role; selected function/permission codes must exist in the code-defined app catalog
+POST {{identityBaseUrl}}/api/identity/roles
+Authorization: Bearer {{appAdminToken}}
+Content-Type: application/json
+
+{
+  "appId": "{{appId}}",
+  "tenantId": "{{tenantId}}",
+  "name": "Campaign editor",
+  "code": "campaign-editor",
+  "functionCodes": [],
+  "permissionCodes": ["marketing:campaigns:read"]
+}
+
+### Assign a role to an active tenant member
+POST {{identityBaseUrl}}/api/identity/roles/{{roleId}}/assignments/{{userId}}
+Authorization: Bearer {{tenantAccessToken}}

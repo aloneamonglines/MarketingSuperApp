@@ -13,5 +13,49 @@
             "Title": "Bản địa hóa Shared",
             "Greeting": "Xin chào, {0}!"
         }
+    },
+    "Shared": {
+        "Errors": {
+            "LocalizationKeyRequired": "Mã bản địa hóa là bắt buộc.",
+            "ValidationFailed": "Yêu cầu có dữ liệu không hợp lệ.",
+            "NotFound": "Không tìm thấy tài nguyên yêu cầu.",
+            "Forbidden": "Bạn không được phép thực hiện thao tác này.",
+            "Internal": "Đã xảy ra lỗi không mong muốn.",
+            "Address": {
+                "RequiredComponent": "Thành phần địa chỉ bắt buộc không được để trống.",
+                "ComponentTooLong": "Thành phần địa chỉ không được vượt quá {0} ký tự.",
+                "CountryCodeRequired": "Mã quốc gia không được để trống.",
+                "CountryCodeInvalid": "Mã quốc gia phải có đúng 2 chữ cái theo ISO 3166-1 alpha-2."
+            },
+            "Image": {
+                "UrlRequired": "URL hình ảnh không được để trống.",
+                "UrlTooLong": "URL hình ảnh không được vượt quá {0} ký tự.",
+                "UrlSchemeInvalid": "URL hình ảnh chỉ hỗ trợ giao thức HTTP hoặc HTTPS.",
+                "UrlHostInvalid": "URL hình ảnh phải có hostname hợp lệ.",
+                "UrlNetworkPathNotAllowed": "URL hình ảnh không được sử dụng network-path reference.",
+                "UrlBackslashNotAllowed": "Đường dẫn hình ảnh không được chứa ký tự backslash.",
+                "FileNameTooLong": "Tên file không được vượt quá {0} ký tự.",
+                "FileNameInvalid": "Tên file chứa ký tự không hợp lệ.",
+                "AltTooLong": "Văn bản mô tả hình ảnh không được vượt quá {0} ký tự.",
+                "ContentTypeTooLong": "MIME type không được vượt quá {0} ký tự.",
+                "ContentTypeInvalid": "ContentType phải là MIME type của hình ảnh.",
+                "FileSizeInvalid": "Dung lượng hình ảnh phải lớn hơn 0 bytes.",
+                "WidthInvalid": "Chiều rộng hình ảnh phải lớn hơn 0 pixel.",
+                "HeightInvalid": "Chiều cao hình ảnh phải lớn hơn 0 pixel.",
+                "StorageKeyTooLong": "Storage Key không được vượt quá {0} ký tự.",
+                "StorageKeyAbsolute": "Storage Key không được là đường dẫn tuyệt đối.",
+                "StorageKeyBackslashNotAllowed": "Storage Key không được chứa ký tự backslash.",
+                "StorageKeyUrlNotAllowed": "Storage Key chỉ được chứa khóa lưu trữ, không phải URL."
+            }
+        },
+        "Validation": {
+            "Required": "Trường này là bắt buộc.",
+            "Invalid": "Giá trị không hợp lệ.",
+            "TooShort": "Giá trị ngắn hơn độ dài tối thiểu.",
+            "TooLong": "Giá trị vượt quá độ dài tối đa.",
+            "OutOfRange": "Giá trị nằm ngoài phạm vi cho phép.",
+            "CollectionEmpty": "Cần có ít nhất một mục.",
+            "CollectionTooLarge": "Số lượng mục vượt quá giới hạn cho phép."
+        }
     }
 }

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\shared\MKS.Shared.Domain.Shared\MKS.Shared.Domain.Shared.csproj" />
+    <EmbeddedResource Include="Localization/Resources/*.json">
+      <LogicalName>$(RootNamespace).Localization.Resources.IdentityResource.%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+    <None Remove="Localization/Resources/*.json" />
+  </ItemGroup>
+</Project>

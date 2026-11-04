@@ -1,7 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.14" />
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="10.0.14" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.14" />
     <ProjectReference Include="..\MKS.Shared.Domain.Shared\MKS.Shared.Domain.Shared.csproj" />
     <ProjectReference Include="..\MKS.Shared.Application.Contracts\MKS.Shared.Application.Contracts.csproj" />
     <ProjectReference Include="..\MKS.Shared.Domain\MKS.Shared.Domain.csproj" />

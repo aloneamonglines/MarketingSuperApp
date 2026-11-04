@@ -1,4 +1,6 @@
 using System.Text.RegularExpressions;
+using MKS.Shared.Domain.Shared.Common;
+using MKS.Shared.Domain.Shared.Constants;
 
 namespace MKS.Shared.Domain.Shared.Common.ValueObjects
 {
@@ -129,7 +131,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// <param name="height">Chiều cao hình ảnh tính bằng pixel, nếu có.</param>
         /// <param name="storageKey">Khóa định danh trong hệ thống lưu trữ, nếu có.</param>
         /// <returns>Một Image Value Object hợp lệ.</returns>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi URL hoặc metadata không hợp lệ.
         /// </exception>
         public static Image Create(
@@ -169,7 +171,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// </summary>
         /// <param name="url">URL hoặc đường dẫn truy cập hình ảnh.</param>
         /// <returns>Một Image Value Object hợp lệ.</returns>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi URL không hợp lệ.
         /// </exception>
         public static Image FromUrl(string url)
@@ -184,7 +186,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// </summary>
         /// <param name="alt">Văn bản mô tả mới.</param>
         /// <returns>Một Image Value Object mới với mô tả được cập nhật.</returns>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi văn bản mô tả không hợp lệ.
         /// </exception>
         public Image WithAlt(string? alt)
@@ -207,7 +209,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// </summary>
         /// <param name="url">URL hoặc đường dẫn mới.</param>
         /// <returns>Một Image Value Object mới.</returns>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi URL mới không hợp lệ.
         /// </exception>
         public Image WithUrl(string url)
@@ -231,25 +233,24 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// hoặc đường dẫn nội bộ của hệ thống.
         /// </summary>
         /// <param name="url">URL cần kiểm tra.</param>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi URL không hợp lệ.
         /// </exception>
         private static void ValidateUrl(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
             {
-                throw new ArgumentException(
-                    "URL hình ảnh không được để trống.",
-                    nameof(url));
+                throw new DomainException(SharedDomainErrorCodes.Image.UrlRequired);
             }
 
             url = url.Trim();
 
             if (url.Length > MaxUrlLength)
             {
-                throw new ArgumentException(
-                    $"URL hình ảnh không được vượt quá {MaxUrlLength} ký tự.",
-                    nameof(url));
+                throw new DomainException(
+                    SharedDomainErrorCodes.Image.UrlTooLong,
+                    null,
+                    MaxUrlLength);
             }
 
             if (Uri.TryCreate(url, UriKind.Absolute, out var uri))
@@ -257,16 +258,12 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
                 if (uri.Scheme != Uri.UriSchemeHttp &&
                     uri.Scheme != Uri.UriSchemeHttps)
                 {
-                    throw new ArgumentException(
-                        "URL hình ảnh chỉ hỗ trợ giao thức HTTP hoặc HTTPS.",
-                        nameof(url));
+                    throw new DomainException(SharedDomainErrorCodes.Image.UrlSchemeInvalid);
                 }
 
                 if (string.IsNullOrWhiteSpace(uri.Host))
                 {
-                    throw new ArgumentException(
-                        "URL hình ảnh phải có hostname hợp lệ.",
-                        nameof(url));
+                    throw new DomainException(SharedDomainErrorCodes.Image.UrlHostInvalid);
                 }
 
                 return;
@@ -275,16 +272,12 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
             if (url.StartsWith("//", StringComparison.Ordinal) ||
                 url.StartsWith("\\\\", StringComparison.Ordinal))
             {
-                throw new ArgumentException(
-                    "URL hình ảnh không được sử dụng network-path reference.",
-                    nameof(url));
+                throw new DomainException(SharedDomainErrorCodes.Image.UrlNetworkPathNotAllowed);
             }
 
             if (url.Contains('\\'))
             {
-                throw new ArgumentException(
-                    "Đường dẫn hình ảnh không được chứa ký tự backslash.",
-                    nameof(url));
+                throw new DomainException(SharedDomainErrorCodes.Image.UrlBackslashNotAllowed);
             }
         }
 
@@ -292,7 +285,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// Kiểm tra tên file có hợp lệ hay không.
         /// </summary>
         /// <param name="fileName">Tên file cần kiểm tra.</param>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi tên file không hợp lệ.
         /// </exception>
         private static void ValidateFileName(string? fileName)
@@ -306,16 +299,15 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
 
             if (fileName.Length > MaxFileNameLength)
             {
-                throw new ArgumentException(
-                    $"Tên file không được vượt quá {MaxFileNameLength} ký tự.",
-                    nameof(fileName));
+                throw new DomainException(
+                    SharedDomainErrorCodes.Image.FileNameTooLong,
+                    null,
+                    MaxFileNameLength);
             }
 
             if (!FileNameRegex.IsMatch(fileName))
             {
-                throw new ArgumentException(
-                    "Tên file chứa ký tự không hợp lệ.",
-                    nameof(fileName));
+                throw new DomainException(SharedDomainErrorCodes.Image.FileNameInvalid);
             }
         }
 
@@ -323,7 +315,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// Kiểm tra văn bản mô tả hình ảnh có hợp lệ hay không.
         /// </summary>
         /// <param name="alt">Văn bản mô tả cần kiểm tra.</param>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi văn bản mô tả vượt quá giới hạn cho phép.
         /// </exception>
         private static void ValidateAlt(string? alt)
@@ -335,9 +327,10 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
 
             if (alt.Length > MaxAltLength)
             {
-                throw new ArgumentException(
-                    $"Văn bản mô tả hình ảnh không được vượt quá {MaxAltLength} ký tự.",
-                    nameof(alt));
+                throw new DomainException(
+                    SharedDomainErrorCodes.Image.AltTooLong,
+                    null,
+                    MaxAltLength);
             }
         }
 
@@ -345,7 +338,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// Kiểm tra MIME type có hợp lệ hay không.
         /// </summary>
         /// <param name="contentType">MIME type cần kiểm tra.</param>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi MIME type không hợp lệ.
         /// </exception>
         private static void ValidateContentType(string? contentType)
@@ -359,18 +352,17 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
 
             if (contentType.Length > MaxContentTypeLength)
             {
-                throw new ArgumentException(
-                    $"MIME type không được vượt quá {MaxContentTypeLength} ký tự.",
-                    nameof(contentType));
+                throw new DomainException(
+                    SharedDomainErrorCodes.Image.ContentTypeTooLong,
+                    null,
+                    MaxContentTypeLength);
             }
 
             if (!contentType.StartsWith(
                     "image/",
                     StringComparison.OrdinalIgnoreCase))
             {
-                throw new ArgumentException(
-                    "ContentType phải là MIME type của hình ảnh.",
-                    nameof(contentType));
+                throw new DomainException(SharedDomainErrorCodes.Image.ContentTypeInvalid);
             }
         }
 
@@ -378,16 +370,14 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// Kiểm tra dung lượng hình ảnh có hợp lệ hay không.
         /// </summary>
         /// <param name="fileSize">Dung lượng hình ảnh tính bằng bytes.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
+        /// <exception cref="DomainException">
         /// Ném ra khi dung lượng nhỏ hơn hoặc bằng 0.
         /// </exception>
         private static void ValidateFileSize(long? fileSize)
         {
             if (fileSize.HasValue && fileSize.Value <= 0)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(fileSize),
-                    "Dung lượng hình ảnh phải lớn hơn 0 bytes.");
+                throw new DomainException(SharedDomainErrorCodes.Image.FileSizeInvalid);
             }
         }
 
@@ -396,7 +386,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// </summary>
         /// <param name="width">Chiều rộng hình ảnh tính bằng pixel.</param>
         /// <param name="height">Chiều cao hình ảnh tính bằng pixel.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
+        /// <exception cref="DomainException">
         /// Ném ra khi chiều rộng hoặc chiều cao nhỏ hơn hoặc bằng 0.
         /// </exception>
         private static void ValidateDimensions(
@@ -405,16 +395,12 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         {
             if (width.HasValue && width.Value <= 0)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(width),
-                    "Chiều rộng hình ảnh phải lớn hơn 0 pixel.");
+                throw new DomainException(SharedDomainErrorCodes.Image.WidthInvalid);
             }
 
             if (height.HasValue && height.Value <= 0)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(height),
-                    "Chiều cao hình ảnh phải lớn hơn 0 pixel.");
+                throw new DomainException(SharedDomainErrorCodes.Image.HeightInvalid);
             }
         }
 
@@ -422,7 +408,7 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
         /// Kiểm tra Storage Key có hợp lệ hay không.
         /// </summary>
         /// <param name="storageKey">Storage Key cần kiểm tra.</param>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="DomainException">
         /// Ném ra khi Storage Key không hợp lệ.
         /// </exception>
         private static void ValidateStorageKey(string? storageKey)
@@ -436,31 +422,26 @@ namespace MKS.Shared.Domain.Shared.Common.ValueObjects
 
             if (storageKey.Length > MaxStorageKeyLength)
             {
-                throw new ArgumentException(
-                    $"Storage Key không được vượt quá {MaxStorageKeyLength} ký tự.",
-                    nameof(storageKey));
+                throw new DomainException(
+                    SharedDomainErrorCodes.Image.StorageKeyTooLong,
+                    null,
+                    MaxStorageKeyLength);
             }
 
             if (storageKey.StartsWith("/", StringComparison.Ordinal) ||
                 storageKey.StartsWith("\\", StringComparison.Ordinal))
             {
-                throw new ArgumentException(
-                    "Storage Key không được là đường dẫn tuyệt đối.",
-                    nameof(storageKey));
+                throw new DomainException(SharedDomainErrorCodes.Image.StorageKeyAbsolute);
             }
 
             if (storageKey.Contains('\\'))
             {
-                throw new ArgumentException(
-                    "Storage Key không được chứa ký tự backslash.",
-                    nameof(storageKey));
+                throw new DomainException(SharedDomainErrorCodes.Image.StorageKeyBackslashNotAllowed);
             }
 
             if (Uri.TryCreate(storageKey, UriKind.Absolute, out _))
             {
-                throw new ArgumentException(
-                    "Storage Key chỉ được chứa khóa lưu trữ, không phải URL.",
-                    nameof(storageKey));
+                throw new DomainException(SharedDomainErrorCodes.Image.StorageKeyUrlNotAllowed);
             }
         }
 

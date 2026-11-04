@@ -1,0 +1,33 @@
+{
+  "Identity": {
+    "Errors": {
+      "IdentifierRequired": "Cần cung cấp ít nhất email, số điện thoại hoặc tên đăng nhập.",
+      "InvalidIdentifier": "Định danh được cung cấp không hợp lệ.",
+      "IdentifierAlreadyExists": "Định danh đã được sử dụng.",
+      "LastAdministrator": "Không thể gỡ quản trị viên đang hoạt động cuối cùng.",
+      "InvalidScope": "Tài nguyên nằm ngoài phạm vi được cấp quyền.",
+      "InvalidInput": "Một hoặc nhiều giá trị được cung cấp không hợp lệ.",
+      "InvalidCredentials": "Thông tin đăng nhập không hợp lệ.",
+      "AccountLocked": "Tài khoản tạm thời bị khóa.",
+      "PasswordPolicy": "Mật khẩu mới không đáp ứng chính sách.",
+      "MustChangePassword": "Cần đổi mật khẩu tạm thời trước khi tiếp tục.",
+      "BreakGlassReason": "Lý do truy cập khẩn cấp phải có ít nhất 20 ký tự.",
+      "BreakGlassDuration": "Thời hạn truy cập khẩn cấp vượt quá giới hạn cho phép.",
+      "BreakGlassExpired": "Quyền truy cập khẩn cấp không còn hiệu lực."
+    },
+    "ProtocolErrors": {
+      "AppScopeNotAllowedForBreakGlass": "Không thể chỉ định ứng dụng khi cấp quyền truy cập khẩn cấp.",
+      "InvalidAppContext": "Ngữ cảnh ứng dụng không hợp lệ.",
+      "IncompleteSignInRequest": "Yêu cầu đăng nhập chưa đầy đủ.",
+      "InvalidTenantContext": "Ngữ cảnh tenant không hợp lệ.",
+      "TenantRequiredForBreakGlass": "Yêu cầu phải có tenant khi cấp quyền truy cập khẩn cấp.",
+      "InvalidBreakGlassGrant": "Quyền truy cập khẩn cấp không hợp lệ.",
+      "BreakGlassGrantOnlyForCustomGrant": "Mã quyền truy cập khẩn cấp chỉ hợp lệ với loại grant tương ứng.",
+      "InvalidCredentialsOrAccessContext": "Thông tin đăng nhập hoặc phạm vi truy cập không hợp lệ.",
+      "InactiveSignInSession": "Phiên đăng nhập không còn hoạt động.",
+      "RefreshTokenScopeMismatch": "Phạm vi refresh token không còn khớp với phiên đăng nhập.",
+      "RefreshTokenAlreadyUsed": "Refresh token đã được sử dụng.",
+      "InactiveBreakGlassGrant": "Quyền truy cập khẩn cấp không còn hoạt động."
+    }
+  }
+}
